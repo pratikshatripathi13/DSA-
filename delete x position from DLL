@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    Node* delPos(Node* head, int x) {
+        if (head == NULL) return NULL;
+
+        if (x == 1) {
+            Node* temp = head;
+            head = head->next;
+            if (head != NULL) {
+                head->prev = NULL; // Fix the new head's prev pointer
+            }
+            delete temp;
+            return head;
+        }
+
+        int c = 1;
+        Node* curr = head;
+
+        while (curr != NULL && curr->next != NULL) {
+            if (c == x - 1) {
+                Node* temp = curr->next; // temp is the node to be deleted
+                
+                curr->next = temp->next;
+                
+               if (temp->next != NULL) {
+                 temp->next->prev = curr;
+               }
+                
+                delete temp; // Safely free memory
+                break;       // Node deleted, we can exit the loop!
+            }
+            
+            c++;
+            curr = curr->next;
+        }
+
+        return head;
+    }
+};
